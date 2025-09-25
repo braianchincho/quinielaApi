@@ -1,5 +1,6 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import DrawController from "../controllers/draw.controller";
+import validateDrawQuery from "../validators/draw.validator";
 
 const router = Router();
 const controller = new DrawController();
@@ -16,7 +17,7 @@ const controller = new DrawController();
  *         schema:
  *           type: string
  *           format: date
- *         description: Fecha en formato yyyy-mm-dd
+ *         description: Fecha en formato yyyy-mm-dd en caso de no asignar vallor se asume el dia de hoy
  *     responses:
  *       200:
  *         description: Lista de sorteos
@@ -53,6 +54,6 @@ const controller = new DrawController();
  *               drawNumber:
  *                 type: number
  */
-router.get("/", controller.getDraws.bind(controller));
+router.get("/", [validateDrawQuery] ,controller.getDraws.bind(controller));
 
 export default router;

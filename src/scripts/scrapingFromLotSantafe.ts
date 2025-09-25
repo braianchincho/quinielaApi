@@ -145,7 +145,6 @@ const save = async () => {
     mongoose.connection.close();
   } catch (err: any) {
     console.log(getLocaleDate());
-    console.log(err.message);
     if (err.code === 11000) {
       console.warn("⚠️ Algunos duplicados fueron ignorados");
     } else {
@@ -155,4 +154,4 @@ const save = async () => {
 };
 
 // Ejecutar
-save().then(results => console.table(results));
+save().then(() => console.info('saved'));
