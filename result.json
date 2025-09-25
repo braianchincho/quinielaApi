@@ -1,0 +1,437 @@
+[
+    {
+        "date": "2025-09-17",
+        "type": "nocturna",
+        "drawNumbers": [
+            {
+                "position": 1,
+                "drawNumber": "8337"
+            },
+            {
+                "position": 2,
+                "drawNumber": "7727"
+            },
+            {
+                "position": 3,
+                "drawNumber": "7192"
+            },
+            {
+                "position": 4,
+                "drawNumber": "7268"
+            },
+            {
+                "position": 5,
+                "drawNumber": "2798"
+            },
+            {
+                "position": 6,
+                "drawNumber": "6613"
+            },
+            {
+                "position": 7,
+                "drawNumber": "4737"
+            },
+            {
+                "position": 8,
+                "drawNumber": "8907"
+            },
+            {
+                "position": 9,
+                "drawNumber": "5505"
+            },
+            {
+                "position": 10,
+                "drawNumber": "5022"
+            },
+            {
+                "position": 11,
+                "drawNumber": "6602"
+            },
+            {
+                "position": 12,
+                "drawNumber": "1966"
+            },
+            {
+                "position": 13,
+                "drawNumber": "1412"
+            },
+            {
+                "position": 14,
+                "drawNumber": "5627"
+            },
+            {
+                "position": 15,
+                "drawNumber": "1971"
+            },
+            {
+                "position": 16,
+                "drawNumber": "9007"
+            },
+            {
+                "position": 17,
+                "drawNumber": "7096"
+            },
+            {
+                "position": 18,
+                "drawNumber": "5514"
+            },
+            {
+                "position": 19,
+                "drawNumber": "2885"
+            },
+            {
+                "position": 20,
+                "drawNumber": "9776"
+            }
+        ],
+        "province": "cordoba"
+    },
+    {
+        "date": "2025-09-17",
+        "type": "nocturna",
+        "drawNumbers": [
+            {
+                "position": 1,
+                "drawNumber": "9339"
+            },
+            {
+                "position": 2,
+                "drawNumber": "9951"
+            },
+            {
+                "position": 3,
+                "drawNumber": "0550"
+            },
+            {
+                "position": 4,
+                "drawNumber": "0329"
+            },
+            {
+                "position": 5,
+                "drawNumber": "8641"
+            },
+            {
+                "position": 6,
+                "drawNumber": "7614"
+            },
+            {
+                "position": 7,
+                "drawNumber": "7981"
+            },
+            {
+                "position": 8,
+                "drawNumber": "6164"
+            },
+            {
+                "position": 9,
+                "drawNumber": "6663"
+            },
+            {
+                "position": 10,
+                "drawNumber": "8359"
+            },
+            {
+                "position": 11,
+                "drawNumber": "1790"
+            },
+            {
+                "position": 12,
+                "drawNumber": "3248"
+            },
+            {
+                "position": 13,
+                "drawNumber": "8375"
+            },
+            {
+                "position": 14,
+                "drawNumber": "0328"
+            },
+            {
+                "position": 15,
+                "drawNumber": "5262"
+            },
+            {
+                "position": 16,
+                "drawNumber": "1094"
+            },
+            {
+                "position": 17,
+                "drawNumber": "2557"
+            },
+            {
+                "position": 18,
+                "drawNumber": "1826"
+            },
+            {
+                "position": 19,
+                "drawNumber": "3659"
+            },
+            {
+                "position": 20,
+                "drawNumber": "4278"
+            }
+        ],
+        "province": "caba"
+    },
+    {
+        "date": "2025-09-17",
+        "type": "nocturna",
+        "drawNumbers": [
+            {
+                "position": 1,
+                "drawNumber": "7125"
+            },
+            {
+                "position": 2,
+                "drawNumber": "8518"
+            },
+            {
+                "position": 3,
+                "drawNumber": "4281"
+            },
+            {
+                "position": 4,
+                "drawNumber": "8923"
+            },
+            {
+                "position": 5,
+                "drawNumber": "7617"
+            },
+            {
+                "position": 6,
+                "drawNumber": "4158"
+            },
+            {
+                "position": 7,
+                "drawNumber": "5445"
+            },
+            {
+                "position": 8,
+                "drawNumber": "0268"
+            },
+            {
+                "position": 9,
+                "drawNumber": "5158"
+            },
+            {
+                "position": 10,
+                "drawNumber": "4304"
+            },
+            {
+                "position": 11,
+                "drawNumber": "9539"
+            },
+            {
+                "position": 12,
+                "drawNumber": "0621"
+            },
+            {
+                "position": 13,
+                "drawNumber": "9116"
+            },
+            {
+                "position": 14,
+                "drawNumber": "9754"
+            },
+            {
+                "position": 15,
+                "drawNumber": "5204"
+            },
+            {
+                "position": 16,
+                "drawNumber": "5618"
+            },
+            {
+                "position": 17,
+                "drawNumber": "6030"
+            },
+            {
+                "position": 18,
+                "drawNumber": "1559"
+            },
+            {
+                "position": 19,
+                "drawNumber": "5294"
+            },
+            {
+                "position": 20,
+                "drawNumber": "9948"
+            }
+        ],
+        "province": "entre rios"
+    },
+    {
+        "date": "2025-09-17",
+        "type": "nocturna",
+        "drawNumbers": [
+            {
+                "position": 1,
+                "drawNumber": "5841"
+            },
+            {
+                "position": 2,
+                "drawNumber": "1041"
+            },
+            {
+                "position": 3,
+                "drawNumber": "7258"
+            },
+            {
+                "position": 4,
+                "drawNumber": "9954"
+            },
+            {
+                "position": 5,
+                "drawNumber": "2130"
+            },
+            {
+                "position": 6,
+                "drawNumber": "7497"
+            },
+            {
+                "position": 7,
+                "drawNumber": "3703"
+            },
+            {
+                "position": 8,
+                "drawNumber": "3094"
+            },
+            {
+                "position": 9,
+                "drawNumber": "0932"
+            },
+            {
+                "position": 10,
+                "drawNumber": "9803"
+            },
+            {
+                "position": 11,
+                "drawNumber": "1024"
+            },
+            {
+                "position": 12,
+                "drawNumber": "7965"
+            },
+            {
+                "position": 13,
+                "drawNumber": "5920"
+            },
+            {
+                "position": 14,
+                "drawNumber": "3466"
+            },
+            {
+                "position": 15,
+                "drawNumber": "5742"
+            },
+            {
+                "position": 16,
+                "drawNumber": "7327"
+            },
+            {
+                "position": 17,
+                "drawNumber": "3549"
+            },
+            {
+                "position": 18,
+                "drawNumber": "3310"
+            },
+            {
+                "position": 19,
+                "drawNumber": "2327"
+            },
+            {
+                "position": 20,
+                "drawNumber": "4460"
+            }
+        ],
+        "province": "buenos aires"
+    },
+    {
+        "date": "2025-09-17",
+        "type": "nocturna",
+        "drawNumbers": [
+            {
+                "position": 1,
+                "drawNumber": "4077"
+            },
+            {
+                "position": 2,
+                "drawNumber": "0788"
+            },
+            {
+                "position": 3,
+                "drawNumber": "0387"
+            },
+            {
+                "position": 4,
+                "drawNumber": "3676"
+            },
+            {
+                "position": 5,
+                "drawNumber": "1366"
+            },
+            {
+                "position": 6,
+                "drawNumber": "4901"
+            },
+            {
+                "position": 7,
+                "drawNumber": "6547"
+            },
+            {
+                "position": 8,
+                "drawNumber": "4847"
+            },
+            {
+                "position": 9,
+                "drawNumber": "4745"
+            },
+            {
+                "position": 10,
+                "drawNumber": "2758"
+            },
+            {
+                "position": 11,
+                "drawNumber": "3742"
+            },
+            {
+                "position": 12,
+                "drawNumber": "3639"
+            },
+            {
+                "position": 13,
+                "drawNumber": "6124"
+            },
+            {
+                "position": 14,
+                "drawNumber": "3594"
+            },
+            {
+                "position": 15,
+                "drawNumber": "6290"
+            },
+            {
+                "position": 16,
+                "drawNumber": "7076"
+            },
+            {
+                "position": 17,
+                "drawNumber": "2819"
+            },
+            {
+                "position": 18,
+                "drawNumber": "5492"
+            },
+            {
+                "position": 19,
+                "drawNumber": "8881"
+            },
+            {
+                "position": 20,
+                "drawNumber": "5864"
+            }
+        ],
+        "province": "santa fe"
+    }
+]
