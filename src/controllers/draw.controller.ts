@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import { Draw } from "../models/draw";
 import { getLocaleDate } from "../helpers/date.helper";
-import { DrawDto, IDraw } from "../models/dtos/draw.dto";
+import { DrawDto} from "../models/dtos/draw.dto";
+import { DrawService } from "../services/draw.service";
+import { DrawType } from "../models/enums/draw.enum";
+import { Province } from "../models/enums/province.enum";
 
 export default class DrawController {
 
@@ -12,8 +14,9 @@ export default class DrawController {
     try {
       const dateParam = req.query.date as string | undefined;
       const date = dateParam || getLocaleDate();
-      const draws: IDraw[] = await Draw.find({ date });
-      const dto: DrawDto[] = this.formatToDto(draws);
+      const province = req.query.province as Province | undefined;
+      const type = req.query.type as DrawType | undefined;
+      const dto: DrawDto[] = await DrawService.getInstance().getDraws({date, province, type});
 
       return res.json(dto);
     } catch (error) {
@@ -21,21 +24,4 @@ export default class DrawController {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   }
-
-  /**
-   * Convierte documentos de DB a DTO para exponer en la API
-   */
-  private formatToDto(documents: IDraw[]): DrawDto[] {
-    return documents.map(({ date, type, province, updated, drawNumbers }) => ({
-      date,
-      type,
-      province,
-      updated,
-      drawNumbers: drawNumbers.map(({ position, drawNumber }) => ({
-        position,
-        drawNumber,
-      })),
-    }));
-  }
-
 }
