@@ -9,20 +9,23 @@ const runScrap = async () => {
     const draws = await scrapPDFs();
     if (draws.length) {
       await Draw.insertMany(draws, { ordered: false });
-      console.log("✅ Datos insertados!",getLocaleDate());
+      console.log("✅ Datos insertados!", getLocaleDate());
     } else {
       console.log("⚠️ No se insertaron datos, PDF sin resultados válidos", getLocaleDate());
     }
-  } catch (err) {
-    console.info("❌ Error en scrap:", getLocaleDate());
-    console.table(err);
+  } catch (err: any) {
+    if (err.code === 11000) {
+      console.warn("⚠️ Algunos duplicados fueron ignorados");
+    } else {
+      console.error("❌ Error seeding data:", err.code);
+    }
   }
 };
 
 // ⏰ Schedule cron jobs at the times of the draws
 export function scheduleJobs() {
   // Previa (10:30 hs)
-  cron.schedule("30 10 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("04 11 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
 
   // Primera (12:00 hs)
   cron.schedule("0 12 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });

@@ -82,7 +82,7 @@ function parseDrawsFromText(text: string, date: string, type: ExtractType): Draw
     console.log(`⚠️ Sorteo ${type} descartado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
     return [];
   }
-  console.log(`⚠️ Sorteo ${type} procesado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
+  console.log(`⚠️ Sorteo ${type} procesado`);
   const provinces = ["CÓRDOBA", "LotBA", "ENTRE RIOS", "BUENOS AIRES", "SANTA FE"];
   const normalized = ["cordoba", "nacional", "entrerios", "buenosaires", "santafe"];
 
@@ -154,4 +154,4 @@ const save = async () => {
 };
 
 // Ejecutar
-save().then(() => console.info('saved'));
+// save().then(() => console.info('saved'));
