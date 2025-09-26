@@ -77,12 +77,12 @@ function parseDrawsFromText(text: string, date: string, type: ExtractType): Draw
 
   // 🔹 validar fecha
   const dayInPdf = extractDayFromPdf(text);
-  const today = getLocaleDate();
-  if (dayInPdf && dayInPdf !== today.getDate()) {
-    console.log(`⚠️ Sorteo ${type} descartado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today.getDate()})`);
+  const today = getLocaleDate().split('-')[2];
+  if (dayInPdf && dayInPdf !== parseInt(today)) {
+    console.log(`⚠️ Sorteo ${type} descartado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
     return [];
   }
-  console.log(`⚠️ Sorteo ${type} procesado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today.getDate()})`);
+  console.log(`⚠️ Sorteo ${type} procesado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
   const provinces = ["CÓRDOBA", "LotBA", "ENTRE RIOS", "BUENOS AIRES", "SANTA FE"];
   const normalized = ["cordoba", "nacional", "entrerios", "buenosaires", "santafe"];
 
@@ -138,7 +138,7 @@ const save = async () => {
     
     await mongoose.connect(uri);
     const draws = await scrapPDFs();
-    console.log("✅ Current data inserted!", new Date().toLocaleString("sv-SE", { timeZone: "America/Argentina/Buenos_Aires" }));
+    console.log("✅ Current data inserted!", getLocaleDate());
     console.log(draws.map(d => d.date + ' ' + d.province + ' ' + d.type))
     await Draw.insertMany(draws, { ordered: false });
 

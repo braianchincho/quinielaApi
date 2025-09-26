@@ -1,5 +1,4 @@
-export const getLocaleDate = () => {
-    const localeString = new Date()
-    .toLocaleString("sv-SE", { timeZone: "America/Argentina/Buenos_Aires" });
-    return new Date(localeString);
+export const getLocaleDate = (): string => {
+  return new Date()
+    .toLocaleDateString("sv-SE", { timeZone: "America/Argentina/Buenos_Aires" });
 };

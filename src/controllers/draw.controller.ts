@@ -11,7 +11,7 @@ export default class DrawController {
   async getDraws(req: Request, res: Response): Promise<Response> {
     try {
       const dateParam = req.query.date as string | undefined;
-      const date = dateParam || getLocaleDate().toISOString().split('T')[0];
+      const date = dateParam || getLocaleDate();
       console.log('date', date)
       const draws: IDraw[] = await Draw.find({ date });
       const dto: DrawDto[] = this.formatToDto(draws);

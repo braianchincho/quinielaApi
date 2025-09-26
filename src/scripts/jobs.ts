@@ -8,13 +8,14 @@ const runScrap = async () => {
     console.log("⏳ Ejecutando scrap...", getLocaleDate());
     const draws = await scrapPDFs();
     if (draws.length) {
-      await Draw.insertMany(draws);
+      await Draw.insertMany(draws, { ordered: false });
       console.log("✅ Datos insertados!",getLocaleDate());
     } else {
       console.log("⚠️ No se insertaron datos, PDF sin resultados válidos", getLocaleDate());
     }
   } catch (err) {
-    console.error("❌ Error en scrap:", err, getLocaleDate());
+    console.info("❌ Error en scrap:", getLocaleDate());
+    console.table(err);
   }
 };
 
