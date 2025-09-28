@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiniela API — Demo</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#60a5fa;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#071024 0%, #071833 100%);}
+    .container{max-width:980px;margin:28px auto;padding:20px}
+    header{display:flex;gap:16px;align-items:center}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 18px;color:var(--muted)}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.6);}
+    form.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type=date],select,input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:var(--glass);color:inherit}
+    .row{display:flex;gap:12px}
+    button{background:var(--accent);color:#022047;border:0;padding:10px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .resultArea{margin-top:16px}
+    pre{white-space:pre-wrap;background:#051226;padding:12px;border-radius:8px;overflow:auto;color:#d5eefc}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
+    .small{font-size:12px;color:var(--muted)}
+    .controls{display:flex;gap:8px;align-items:center}
+    .copyBtn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 8px;border-radius:6px;cursor:pointer}
+    .spinner{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);border-top-color:var(--accent);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Quiniela API — Demo</h1>
+        <p class="lead">Interfaz simple para probar <code>/api/draws?date=yyyy-mm-dd&amp;province=&lt;province&gt;&amp;type=&lt;type&gt;</code></p>
+      </div>
+    </header>
+
+    <section class="card" aria-labelledby="form-title">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <strong id="form-title">Parámetros</strong>
+          <div class="small">Edita baseURL si tu API corre en otro host</div>
+        </div>
+        <div class="controls">
+          <button id="openCurl" class="ghost">Mostrar cURL</button>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:12px">
+        <label class="small">Base URL</label>
+        <input id="baseUrl" type="text" />
+
+        <form id="paramsForm" class="grid" onsubmit="return false;">
+          <div>
+            <label for="date">Fecha</label>
+            <input id="date" type="date" />
+          </div>
+
+          <div>
+            <label for="province">Provincia</label>
+            <select id="province">
+              <option value="">(todas)</option>
+              <option value="CÓRDOBA">CÓRDOBA</option>
+              <option value="BUENOS_AIRES">BUENOS_AIRES</option>
+              <option value="MENDOZA">MENDOZA</option>
+              <option value="SANTA_FE">SANTA_FE</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="type">Tipo</label>
+            <select id="type">
+              <option value="">(todos)</option>
+              <option value="previa">previa</option>
+              <option value="primera">primera</option>
+              <option value="matutina">matutina</option>
+              <option value="vespertina">vespertina</option>
+              <option value="nocturna">nocturna</option>
+            </select>
+          </div>
+
+          <div style="display:flex;align-items:end;gap:8px">
+            <button id="fetchBtn">Buscar</button>
+            <button id="clearBtn" type="button" class="ghost">Limpiar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="resultArea" id="resultArea" aria-live="polite"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <strong>Ejemplo de respuesta (JSON)</strong>
+      <pre id="sampleJson">[]</pre>
+    </section>
+
+    <footer>
+      <div class="small">Consejos: respetá <code>robots.txt</code>, bajá la frecuencia de requests y pedí permiso si vas a publicar o redistribuir contenido.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Helpers
+    const $ = id => document.getElementById(id);
+    const formatQuery = (params) => Object.entries(params)
+      .filter(([,v]) => v !== undefined && v !== null && v !== '')
+      .map(([k,v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+      .join('&');
+
+    const fetchBtn = $('fetchBtn');
+    const clearBtn = $('clearBtn');
+    const dateInput = $('date');
+    const provinceInput = $('province');
+    const typeInput = $('type');
+    const baseUrlInput = $('baseUrl');
+    const resultArea = $('resultArea');
+    const sampleJson = $('sampleJson');
+    const openCurl = $('openCurl');
+    const originURL = document.location.origin;
+    const baseUrl = originURL.split(':').length >= 2 ? 'http://localhost:4000' : originURL;
+
+    baseUrlInput.value = baseUrl;
+    baseUrlInput.ariaPlaceholder = baseUrl;
+
+    // Set default date to today (locale yyyy-mm-dd)
+    const today = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    dateInput.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+    function renderResults(data){
+      sampleJson.textContent = JSON.stringify(data, null, 2);
+
+      if(!Array.isArray(data) || data.length === 0){
+        resultArea.innerHTML = `<div class=\"small\">No se encontraron sorteos para esos parámetros.</div>`;
+        return;
+      }
+
+      // If DTO has 'numbers' property, show table per draw
+      const html = data.map((d, i) => {
+        const header = `<div style=\"display:flex;justify-content:space-between;align-items:center\"><strong>Draw ${i+1} — ${d.province || ''} ${d.type || ''} ${d.date || ''}</strong><span class=\"small\">updated: ${d.updated || '-'} </span></div>`;
+        let numbersHtml = '';
+        if(Array.isArray(d.numbers)){
+          numbersHtml = `<div style=\"margin-top:8px\"><strong>Números:</strong> ${d.numbers.join(', ')}</div>`;
+        } else if(d.prizes){
+          numbersHtml = `<div style=\"margin-top:8px\"><strong>Prizes:</strong> <pre>${JSON.stringify(d.prizes,null,2)}</pre></div>`;
+        } else {
+          numbersHtml = `<pre>${JSON.stringify(d, null, 2)}</pre>`;
+        }
+        return `<div style=\"margin-bottom:12px\">${header}${numbersHtml}</div>`;
+      }).join('');
+
+      resultArea.innerHTML = html;
+    }
+
+    async function fetchDraws(){
+      const base = baseUrlInput.value.replace(/\/$/, '');
+      const params = {
+        date: dateInput.value,
+        province: provinceInput.value || undefined,
+        type: typeInput.value || undefined
+      };
+      const q = formatQuery(params);
+      const url = `${base}/api/draws${q ? ('?'+q) : ''}`;
+
+      // update cURL preview
+      openCurl.dataset.curl = `curl -s "${url}"`;
+
+      resultArea.innerHTML = '<div style="display:flex;gap:8px;align-items:center"><div class="spinner"></div><div class="small">Cargando...</div></div>';
+
+      try{
+        const resp = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if(!resp.ok) throw new Error(`HTTP ${resp.status} - ${resp.statusText}`);
+        const data = await resp.json();
+        renderResults(data);
+      }catch(err){
+        resultArea.innerHTML = `<div class=\"small\">Error: ${err.message}</div><pre>${err.stack || ''}</pre>`;
+        sampleJson.textContent = '[]';
+      }
+    }
+
+    fetchBtn.addEventListener('click', fetchDraws);
+    clearBtn.addEventListener('click', () => {
+      provinceInput.value = '';
+      typeInput.value = '';
+      // reset date to today
+      dateInput.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+      resultArea.innerHTML = '';
+      sampleJson.textContent = '[]';
+    });
+
+    openCurl.addEventListener('click', () => {
+      const curl = openCurl.dataset.curl || 'Presiona "Buscar" para generar el cURL';
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';modal.style.left=0;modal.style.top=0;modal.style.right=0;modal.style.bottom=0;modal.style.display='flex';modal.style.alignItems='center';modal.style.justifyContent='center';modal.style.background='rgba(2,6,23,0.6)';
+      modal.innerHTML = `<div style=\"max-width:720px;width:100%;padding:18px;border-radius:12px;background:#041226;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:12px\">\n          <strong>cURL</strong>\n          <button id=\"closeModal\" class=\"ghost\">Cerrar</button>\n        </div>\n        <pre id=\"curlBox\">${curl}</pre>\n        <div style=\"display:flex;gap:8px;margin-top:8px\">\n          <button id=\"copyCurl\" class=\"copyBtn\">Copiar</button>\n        </div>\n      </div>`;
+      document.body.appendChild(modal);
+      $('closeModal').addEventListener('click', ()=>document.body.removeChild(modal));
+      $('copyCurl').addEventListener('click', async ()=>{ await navigator.clipboard.writeText(openCurl.dataset.curl || ''); alert('cURL copiado'); });
+    });
+
+    // Allow pressing Enter on inputs
+    ['date','province','type','baseUrl'].forEach(id => {
+      $(id).addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ fetchDraws(); } });
+    });
+
+    // initial sample
+    sampleJson.textContent = '[\n  { "province": "CORDOBA", "type": "matutina", "date": "2025-09-27", "numbers": [12,34,56] }\n]';
+  </script>
+</body>
+</html>
