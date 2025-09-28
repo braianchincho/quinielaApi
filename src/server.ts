@@ -5,6 +5,7 @@ import drawsRouter from "./routes/draws";
 import { setupSwagger } from "./swagger";
 import { scheduleJobs } from "./scripts/jobs";
 import cors from "cors";
+import path from 'path';
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,10 @@ const PORT = process.env.PORT || 4000;
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+});
 
 // Routes
 app.use("/api/draws", drawsRouter);
