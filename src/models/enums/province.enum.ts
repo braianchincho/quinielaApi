@@ -4,4 +4,5 @@ export enum Province {
   ENTRE_RIOS = "entrerios",
   BUENOS_AIRES = "buenosaires",
   SANTA_FE = "santafe",
+  MONTEVIDEO = 'montevideo'
 }

@@ -22,7 +22,7 @@ const controller = new DrawController();
  *         name: province
  *         schema:
  *           type: string
- *           enum: [cordoba, nacional, entrerios, buenosaires, santafe]
+ *           enum: [cordoba, nacional, entrerios, buenosaires, santafe, montevideo]
  *         description: Provincia a filtrar. Si no se especifica, devuelve todas las provincias.
  *       - in: query
  *         name: type
