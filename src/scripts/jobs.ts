@@ -28,22 +28,22 @@ const runScrap = async () => {
 
 // ⏰ Schedule cron jobs at the times of the draws
 export function scheduleJobs() {
-  // Previa (10:30 hs)
-  cron.schedule("15 10 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
-
+  // Previa (10:00 hs)
+  cron.schedule("0,15,30,45 10 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("01 11 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
   // Primera (12:00 hs)
   cron.schedule("01 12 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
 
   // Matutina (15:00 hs)
-  cron.schedule("01 15 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("01,15,30,45 15 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
 
   // Vespertina (18:00 hs)
-  cron.schedule("01 18 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("01,15,30,45 18 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
 
   // Nocturna (21:00 hs)
-  cron.schedule("01 21 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("01,15,30,45 21 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
   // respaldo
-  cron.schedule("15 21 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
+  cron.schedule("15 23 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
   runScrap();
   console.log("📅 Cron jobs programados", getLocaleDate());
 }
