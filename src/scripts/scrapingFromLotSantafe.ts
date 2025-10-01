@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { Draw } from "../models/draw";
 import { getLocaleDate } from "../helpers/date.helper";
+import { logger } from "../helpers/logger";
 
 dotenv.config();
 type ExtractType = 'previa' | 'primera' | 'matutina' | 'vespertina' | 'nocturna';
@@ -47,7 +48,7 @@ async function getPdfLink(url: string): Promise<string | undefined> {
     const pdfLink = $(".soloextracto a").attr("href");
     return pdfLink;
   } catch (err) {
-    console.error(`Error al obtener PDF de ${url}:`, err);
+    logger.error(`Error al obtener PDF de ${url}:`);
     return undefined;
   }
 }
@@ -79,10 +80,10 @@ function parseDrawsFromText(text: string, date: string, type: ExtractType): Draw
   const dayInPdf = extractDayFromPdf(text);
   const today = getLocaleDate().split('-')[2];
   if (dayInPdf && dayInPdf !== parseInt(today)) {
-    console.log(`⚠️ Sorteo ${type} descartado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
+    logger.info(`⚠️ Sorteo ${type} descartado: fecha del PDF (${dayInPdf}) no coincide con hoy (${today})`);
     return [];
   }
-  console.log(`⚠️ Sorteo ${type} procesado`);
+  logger.info(`⚠️ Sorteo ${type} procesado`);
   const provinces = ["CÓRDOBA", "LotBA", "ENTRE RIOS", "BUENOS AIRES", "SANTA FE"];
   const normalized = ["cordoba", "nacional", "entrerios", "buenosaires", "santafe"];
 
@@ -114,7 +115,7 @@ async function fetchPdfAndConvertToJson(url: string, type: ExtractType, date: st
     const data = await pdf(buffer);
     return parseDrawsFromText(data.text, date, type);
   } catch (error) {
-    console.error(`Error procesando PDF ${url}:`, error);
+    logger.error(`Error procesando PDF ${url}:`);
     return [];
   }
 }
@@ -138,20 +139,20 @@ const save = async () => {
     
     await mongoose.connect(uri);
     const draws = await scrapPDFs();
-    console.log("✅ Current data inserted!", getLocaleDate());
-    console.log(draws.map(d => d.date + ' ' + d.province + ' ' + d.type))
+    logger.info("✅ Current data inserted!");
+    logger.info(draws.map(d => d.date + ' ' + d.province + ' ' + d.type))
     await Draw.insertMany(draws, { ordered: false });
 
     mongoose.connection.close();
   } catch (err: any) {
-    console.log(getLocaleDate());
+    logger.info(getLocaleDate());
     if (err.code === 11000) {
-      console.warn("⚠️ Algunos duplicados fueron ignorados");
+      logger.warn("⚠️ Algunos duplicados fueron ignorados");
     } else {
-      console.error("❌ Error seeding data:", err.code);
+      logger.error("❌ Error seeding data:", err.code);
     }
   }
 };
 
 // Ejecutar
-// save().then(() => console.info('saved'));
+// save().then(() => logger.info('saved'));

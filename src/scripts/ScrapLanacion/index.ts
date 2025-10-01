@@ -1,3 +1,4 @@
+import { logger } from "../../helpers/logger";
 import { DrawDto } from "../../models/dtos/draw.dto";
 import { Province } from "../../models/enums/province.enum";
 import parseAllDrawTables from "./scrapLaNacionPage";
@@ -18,15 +19,15 @@ const LANACION_BY_PROVINCE: ProvinceConfig[] = [
 export const getDrawsDataFromLaNacion = async () => {
   const promises = LANACION_BY_PROVINCE.map(async ({ url, province }) => {
     try {
+      logger.info('Scrap from '+ url);
       return await parseAllDrawTables(url, province);
     } catch (err) {
-      console.error(`❌ Error scrapeando ${province}:`, err);
+      logger.error(`❌ Error scrapeando ${province}:`);
       return null;
     }
   });
 
   const results = await Promise.all(promises);
-
   return results.flat().filter(Boolean) as unknown as DrawDto[];
 };
 

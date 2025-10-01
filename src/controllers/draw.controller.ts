@@ -4,6 +4,7 @@ import { DrawDto} from "../models/dtos/draw.dto";
 import { DrawService } from "../services/draw.service";
 import { DrawType } from "../models/enums/draw.enum";
 import { Province } from "../models/enums/province.enum";
+import { logger } from "../helpers/logger";
 
 export default class DrawController {
 
@@ -20,7 +21,7 @@ export default class DrawController {
 
       return res.json(dto);
     } catch (error) {
-      console.error("❌ Error fetching draws:", error);
+      logger.error("❌ Error fetching draws:");
       return res.status(500).json({ error: "Internal Server Error" });
     }
   }

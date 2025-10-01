@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
+import { logger } from "./helpers/logger";
 
 export const connectDB = async () => {
   try {
     const c = process.env.MONGO_URI || "mongodb://localhost:27017/drawsdb";
-    console.log(c)
     await mongoose.connect(c);
-    console.log("✅ MongoDB connected");
+    logger.info("✅ MongoDB connected");
   } catch (err) {
-    console.error("❌ Error connecting to MongoDB", err);
+    logger.error("❌ Error connecting to MongoDB");
     process.exit(1);
   }
 };

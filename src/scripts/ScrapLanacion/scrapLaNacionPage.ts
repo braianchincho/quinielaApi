@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { logger } from "../../helpers/logger";
 
 /**
  * Cabeceras HTTP para evitar bloqueos por bots.
@@ -17,7 +18,7 @@ const fetchPage = async (url: string): Promise<cheerio.Root> => {
     const { data } = await axios.get(url, { headers: HEADERS });
     return cheerio.load(data as string);
   } catch (error) {
-    console.error(`❌ Error fetching page: ${url}`, error);
+    logger.error(`❌ Error fetching page: ${url}`);
     throw new Error("Failed to fetch page");
   }
 };

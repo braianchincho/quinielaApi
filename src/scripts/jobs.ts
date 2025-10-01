@@ -3,25 +3,25 @@ import { scrapPDFs } from "./scrapingFromLotSantafe";
 import { Draw } from "../models/draw";
 import { getLocaleDate } from "../helpers/date.helper";
 import getDrawsDataFromLaNacion from "./ScrapLanacion";
+import { logger } from "../helpers/logger";
 
 const runScrap = async () => {
   try {
-    console.log("⏳ Ejecutando scrap...", getLocaleDate(),new Date()
-    .toLocaleTimeString("sv", { timeZone: "America/Argentina/Buenos_Aires" }));
+    logger.info("⏳ Ejecutando scrap...");
     const drawsFromSantaFePage = await scrapPDFs();
     const drawsFromLaNacionPage = await getDrawsDataFromLaNacion();
     const draws = [...drawsFromLaNacionPage, ...drawsFromSantaFePage];
     if (draws.length) {
       await Draw.insertMany(draws, { ordered: false });
-      console.log("✅ Datos insertados!", getLocaleDate());
+      logger.info("✅ Datos insertados!");
     } else {
-      console.log("⚠️ No se insertaron datos, PDF sin resultados válidos", getLocaleDate());
+      logger.info("⚠️ No se insertaron datos, PDF sin resultados válidos");
     }
   } catch (err: any) {
     if (err.code === 11000) {
-      console.warn("⚠️ Algunos duplicados fueron ignorados");
+      logger.warn("⚠️ Algunos duplicados fueron ignorados");
     } else {
-      console.error("❌ Error seeding data:", err.code);
+      logger.error("❌ Error seeding data:", err.code);
     }
   }
 };
@@ -45,5 +45,5 @@ export function scheduleJobs() {
   // respaldo
   cron.schedule("15 23 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
   runScrap();
-  console.log("📅 Cron jobs programados", getLocaleDate());
+  logger.info("📅 Cron jobs programados", getLocaleDate());
 }
