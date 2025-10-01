@@ -45,5 +45,5 @@ export function scheduleJobs() {
   // respaldo
   cron.schedule("15 23 * * *", runScrap, { timezone: "America/Argentina/Buenos_Aires" });
   runScrap();
-  logger.info("📅 Cron jobs programados", getLocaleDate());
+  logger.info("📅 Cron jobs programados");
 }
