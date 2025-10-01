@@ -6,5 +6,5 @@ node_modules/
 .env.local
 .env.*.local
 
-# production code
+# production code 
 dist/

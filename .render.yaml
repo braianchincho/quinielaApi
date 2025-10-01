@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mi-api
+    name: quiniela-api
     env: node
     region: oregon
     buildCommand: npm install && npm run build
