@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: mi-api
+    env: node
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DB_URL
+        sync: false # Configura en dashboard
+
+  - type: cron
+    name: pdf-scraper-cron
+    env: node
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: node dist/scripts/parseformPdf.js
+    schedule: "0 * * * *" # Cada hora
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: API_URL
+        sync: false
