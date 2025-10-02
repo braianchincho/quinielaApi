@@ -21,8 +21,9 @@ export const getDrawsDataFromLaNacion = async () => {
     try {
       logger.info('Scrap from '+ url);
       return await parseAllDrawTables(url, province);
-    } catch (err) {
-      logger.error(`❌ Error scrapeando ${province}:`);
+    } catch (err: any) {
+      logger.error(`❌ Error scrapeando ${province}: `);
+      logger.error(err);
       return null;
     }
   });
