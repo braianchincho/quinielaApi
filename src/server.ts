@@ -1,15 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
-import { connectDB } from "./database";
 import drawsRouter from "./routes/draws";
 import { setupSwagger } from "./swagger";
 import { scheduleJobs } from "./scripts/jobs";
 import cors from "cors";
 import path from 'path';
+import { Database } from "./database";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
+const database = Database.getInstance();
 
 app.use(express.static("public"));
 app.use(cors());
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use("/api/draws", drawsRouter);
 
-connectDB();
+database.connect();
 
 // Swagger
 setupSwagger(app);

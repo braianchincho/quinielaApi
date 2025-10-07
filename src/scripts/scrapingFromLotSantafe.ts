@@ -2,8 +2,6 @@ import axios from "axios";
 import pdf from "pdf-parse";
 import * as cheerio from "cheerio";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import { Draw } from "../models/draw";
 import { getLocaleDate } from "../helpers/date.helper";
 import { logger } from "../helpers/logger";
 
@@ -131,28 +129,3 @@ export async function scrapPDFs(): Promise<DrawDto[]> {
 
   return results;
 }
-
-const save = async () => {
-  try {
-    const uri = process.env.MONGO_URI;
-    if (!uri) return;
-    
-    await mongoose.connect(uri);
-    const draws = await scrapPDFs();
-    logger.info("✅ Current data inserted!");
-    logger.info(draws.map(d => d.date + ' ' + d.province + ' ' + d.type))
-    await Draw.insertMany(draws, { ordered: false });
-
-    mongoose.connection.close();
-  } catch (err: any) {
-    logger.info(getLocaleDate());
-    if (err.code === 11000) {
-      logger.warn("⚠️ Algunos duplicados fueron ignorados");
-    } else {
-      logger.error("❌ Error seeding data:", err.code);
-    }
-  }
-};
-
-// Ejecutar
-// save().then(() => logger.info('saved'));
