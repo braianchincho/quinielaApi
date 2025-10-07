@@ -1,9 +1,9 @@
 import cron from "node-cron";
 import { scrapPDFs } from "./scrapingFromLotSantafe";
 import { Draw } from "../models/draw";
-import { getLocaleDate } from "../helpers/date.helper";
 import getDrawsDataFromLaNacion from "./ScrapLanacion";
 import { logger } from "../helpers/logger";
+import cache from "../helpers/cache";
 
 const runScrap = async () => {
   try {
@@ -12,6 +12,8 @@ const runScrap = async () => {
     const drawsFromLaNacionPage = await getDrawsDataFromLaNacion();
     const draws = [...drawsFromLaNacionPage, ...drawsFromSantaFePage];
     if (draws.length) {
+      cache.flushAll();
+      logger.info("cache reset");
       await Draw.insertMany(draws, { ordered: false });
       logger.info("✅ Datos insertados!");
     } else {
